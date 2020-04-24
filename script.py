@@ -25,11 +25,12 @@ os.chdir(path)
 for i in os.listdir():
     if os.path.isfile(i):
         extension = os.path.splitext(i)[1]
-        if extension not in list_dirs_types:
+        if extension not in ext_dict.keys():
             os.rename(i, os.path.join(path, "pozostale"))
             continue
         dir_name = ext_dict[extension]
         if not os.path.exists(os.path.join(path, dir_name)):
-            pass
-
+            os.mkdir(dir_name)
+        path_to_dir = os.path.join(path, dir_name)
+        os.rename(i, os.path.join(path_to_dir, i))
 #print("\nend of script\n")
