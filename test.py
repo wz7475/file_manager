@@ -14,4 +14,6 @@ for i in os.listdir():
                 os.mkdir(path_current_rest)
             else:
                 os.mkdir(os.path.join(path_rest, "new"))
+                last_dir = os.path.basename(path_current_rest)
+                last_dir = last_dir + "_(" + "1" + ")"
                 
