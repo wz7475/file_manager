@@ -1,0 +1,11 @@
+{
+    ".docx": "word",
+    ".xlsx": "excel",
+    ".pptx": "power_point",
+    ".pdf": "pdf",
+    ".png": "zdjecia",
+    ".jpg": "zdjecia",
+    ".gif": "zdjecia",
+    ".zip": "skompresowane",
+    ".rar": "skompresowane"
+}
