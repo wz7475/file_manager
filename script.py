@@ -85,45 +85,47 @@ def name_checker(name):
         write_json(data)   """
 
 
-while True:
 
-    print("Przeciągnij folder lub wpisz ścieżkę:\n")
-    path = input()
+print("Przeciągnij folder lub wpisz ścieżkę:\n")
+path = input()
 
-    #path = "c:\\Users\\wojte\\Desktop\\test"
-    os.chdir(path)
+#path = "c:\\Users\\wojte\\Desktop\\test"
+os.chdir(path)
 
-    for i in os.listdir():
-        if os.path.isfile(i):
-            try:
-                extension = os.path.splitext(i)[1]
-                """ if extension not in ext_dict.keys():
-                    os.rename(i, os.path.join(path, name_rest_dir))
-                    continue """
-                dir_name = ext_dict[extension]
-                if not os.path.exists(os.path.join(path, dir_name)):
-                    os.mkdir(dir_name)
-                path_to_dir = os.path.join(path, dir_name)
-                if extension in list_for_change:
-                    os.rename(i, os.path.join(path_to_dir, name_changer(i)))
-                else:
-                    os.rename(i, os.path.join(path_to_dir, i))
-            except FileExistsError:
-                if extension in list_for_change:
-                    file_name_whole = os.path.basename(
-                        os.path.join(path, name_changer(i)))
-                else:
-                    file_name_whole = os.path.basename(os.path.join(path, i))
+for i in os.listdir():
+    if os.path.isfile(i):
+        try:
+            extension = os.path.splitext(i)[1]
+            """ if extension not in ext_dict.keys():
+                os.rename(i, os.path.join(path, name_rest_dir))
+                continue """
+            dir_name = ext_dict[extension]
+            if not os.path.exists(os.path.join(path, dir_name)):
+                os.mkdir(dir_name)
+            path_to_dir = os.path.join(path, dir_name)
+            if extension in list_for_change:
+                os.rename(i, os.path.join(path_to_dir, name_changer(i)))
+            else:
+                os.rename(i, os.path.join(path_to_dir, i))
+        except FileExistsError:
+            if extension in list_for_change:
+                file_name_whole = os.path.basename(
+                    os.path.join(path, name_changer(i)))
+            else:
+                file_name_whole = os.path.basename(os.path.join(path, i))
 
-                file_name_base, file_name_ext = os.path.splitext(
-                    file_name_whole)
-                file_name_base += "#"
-                file_name_new = file_name_base + file_name_ext
+            file_name_base, file_name_ext = os.path.splitext(
+                file_name_whole)
+            file_name_base += "#"
+            file_name_new = file_name_base + file_name_ext
 
-                dir_name = ext_dict[extension]
-                path_rest = os.path.join(path, dir_name)
-                if not os.path.exists(os.path.join(path, dir_name)):
-                    os.mkdir(dir_name)
-                path_to_dir = os.path.join(path, dir_name)
-                os.rename(os.path.join(path, i), os.path.join(
-                    path_rest, file_name_new))
+            dir_name = ext_dict[extension]
+            path_rest = os.path.join(path, dir_name)
+            if not os.path.exists(os.path.join(path, dir_name)):
+                os.mkdir(dir_name)
+            path_to_dir = os.path.join(path, dir_name)
+            os.rename(os.path.join(path, i), os.path.join(
+                path_rest, file_name_new))
+    if os.path.isdir(i):
+        pass
+        #https://www.geeksforgeeks.org/copy-a-directory-recursively-using-python-with-examples/
