@@ -26,6 +26,19 @@ def name_changer(path):
     return new_name
     # return os.path.join(dir_name, new_name)
 
+def exists_checker(path):
+    if (os.path.exists(path)):
+        return True
+    return False
+
+def name_for_duplicates(path):
+    if os.path.isfile(path):
+        old_name = os.path.splitext(path)[0]
+        new_name = old_name + "_" + os.path.splitext(path)[1]
+    else:
+        old_name = os.path.basename(path)
+        new_name = old_name + "_"
+    return new_name
 
 def delete_dir():
     name = input("Podaj nazwę folderu - uwaga usuwasz całą jego zawartość:\n")
@@ -97,44 +110,35 @@ os.chdir(path)
 
 for i in os.listdir():
     if os.path.isfile(i):
-        try:
-            extension = os.path.splitext(i)[1]
-            """ if extension not in ext_dict.keys():
-                os.rename(i, os.path.join(path, name_rest_dir))
-                continue """
-            dir_name = ext_dict[extension]
-            if not os.path.exists(os.path.join(path, dir_name)):
-                os.mkdir(dir_name)
-            path_to_dir = os.path.join(path, dir_name)
-            if extension in list_for_change:
-                os.rename(i, os.path.join(path_to_dir, name_changer(i)))
+        extension = os.path.splitext(i)[1]
+        """ if extension not in ext_dict.keys():
+            os.rename(i, os.path.join(path, name_rest_dir))
+            continue """
+        dir_name = ext_dict[extension]
+        if not os.path.exists(os.path.join(path, dir_name)):
+            os.mkdir(dir_name)
+        path_to_dir = os.path.join(path, dir_name)
+        if extension in list_for_change:
+            new_name = name_changer(i)
+            if exists_checker(os.path.join(path_to_dir, new_name)):
+                new_name = name_for_duplicates(new_name)
+            os.rename(i, os.path.join(path_to_dir, new_name))
+        else:
+            if exists_checker(os.path.join(path_to_dir, i)):
+                new_name = name_for_duplicates(i)
+                os.rename(i, os.path.join(path_to_dir, new_name))
             else:
                 os.rename(i, os.path.join(path_to_dir, i))
-        except FileExistsError:
-            if extension in list_for_change:
-                file_name_whole = os.path.basename(
-                    os.path.join(path, name_changer(i)))
-            else:
-                file_name_whole = os.path.basename(os.path.join(path, i))
-
-            file_name_base, file_name_ext = os.path.splitext(
-                file_name_whole)
-            file_name_base += "#"
-            file_name_new = file_name_base + file_name_ext
-
-            dir_name = ext_dict[extension]
-            path_rest = os.path.join(path, dir_name)
-            if not os.path.exists(os.path.join(path, dir_name)):
-                os.mkdir(dir_name)
-            path_to_dir = os.path.join(path, dir_name)
-            os.rename(os.path.join(path, i), os.path.join(
-                path_rest, file_name_new))
     if os.path.isdir(i) and os.path.basename(i) != name_folder_dir and os.path.basename(i) not in ext_dict.values():
         """ if not os.path.exists(os.path.join(path, name_folder_dir)):
             os.mkdir(name_folder_dir)
             print("create foldery") """
         path_to_folder_dir = os.path.join(path, name_folder_dir)
-        shutil.copytree(i, os.path.join(path_to_folder_dir, os.path.basename(i)))
+        if exists_checker(os.path.join(path_to_folder_dir, i)):
+            new_name = name_for_duplicates(i)
+            shutil.copytree(i, os.path.join(path_to_folder_dir, new_name))
+        else:
+            shutil.copytree(i, os.path.join(path_to_folder_dir, os.path.basename(i)))
         shutil.rmtree(i, ignore_errors=True)
         #shutil.rmtree(i, ignore_errors=True)
 
