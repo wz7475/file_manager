@@ -3,6 +3,7 @@ import shutil
 from datetime import datetime
 import json
 name_rest_dir = "pozostale"
+name_folder_dir = "foldery"
 list_for_change = [".jpg", ".png"]
 """ list_dirs_selected = ["word", "excel", "powerpoint", "pdf", "zdjecia", "skompresowane", name_rest_dir]
 list_dirs_types = ["word", "excel", "powerpoint", "pdf", "zdjecia", "skompresowane"] """
@@ -87,9 +88,11 @@ def name_checker(name):
 
 
 print("Przeciągnij folder lub wpisz ścieżkę:\n")
-path = input()
+#path = input()
 
 #path = "c:\\Users\\wojte\\Desktop\\test"
+path = "/mnt/c/users/wojte/Desktop/test"
+print(path)
 os.chdir(path)
 
 for i in os.listdir():
@@ -126,6 +129,13 @@ for i in os.listdir():
             path_to_dir = os.path.join(path, dir_name)
             os.rename(os.path.join(path, i), os.path.join(
                 path_rest, file_name_new))
-    if os.path.isdir(i):
-        pass
+    if os.path.isdir(i) and os.path.basename(i) != name_folder_dir and os.path.basename(i) not in ext_dict.values():
+        """ if not os.path.exists(os.path.join(path, name_folder_dir)):
+            os.mkdir(name_folder_dir)
+            print("create foldery") """
+        path_to_folder_dir = os.path.join(path, name_folder_dir)
+        shutil.copytree(i, os.path.join(path_to_folder_dir, os.path.basename(i)))
+        shutil.rmtree(i, ignore_errors=True)
+        #shutil.rmtree(i, ignore_errors=True)
+
         #https://www.geeksforgeeks.org/copy-a-directory-recursively-using-python-with-examples/
