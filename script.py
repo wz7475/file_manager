@@ -10,11 +10,6 @@ list_dirs_types = ["word", "excel", "powerpoint", "pdf", "zdjecia", "skompresowa
 
 ext_dict = json.load(open("ext.json"))
 
-""" def write_json(data, filename='ext.json'): 
-    with open(filename,'w') as f: 
-        json.dump(data, f, indent=4) """
-
-
 def name_changer(path):
     dir_name, file_full_name = os.path.split(path)
     name = os.path.basename(path)
@@ -71,35 +66,6 @@ def name_checker(name):
             return False
     return True
 
-
-""" def add_ext():
-    ext = input("Podaj nazwe rozszerzenia np. .txt\n")
-    while not ext_checker(ext):
-        ext = input("Podaj nazwe rozszerzenia, pamiętaj o poprawności np. .txt\n")
-    if ext in ext_dict.keys():
-        print("Rozszerzenie już wspierane")
-        return
-    folder = input("Podaj nazwe folderu:\n")
-    while not name_checker(folder):
-        folder = input("Podaj nazwe folderu, pamiętaj o poprawnośc")
-    def write_json(data, filename='data.json'): 
-        with open(filename,'w') as f: 
-            json.dump(data, f, indent=4) 
-        
-        
-        with open('ext.json') as json_file: 
-            data = json.load(json_file) 
-
-            # python object to be appended 
-            y = {ext : folder}
-        
-            # appending data to emp_details  
-            data.update(y) 
-            
-        write_json(data)   """
-
-
-
 print("Przeciągnij folder lub wpisz ścieżkę:\n")
 #path = input()
 
@@ -140,6 +106,4 @@ for i in os.listdir():
         else:
             shutil.copytree(i, os.path.join(path_to_folder_dir, os.path.basename(i)))
         shutil.rmtree(i, ignore_errors=True)
-        #shutil.rmtree(i, ignore_errors=True)
 
-        #https://www.geeksforgeeks.org/copy-a-directory-recursively-using-python-with-examples/
