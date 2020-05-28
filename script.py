@@ -7,8 +7,20 @@ name_folder_dir = "foldery"
 list_for_change = [".jpg", ".png"]
 """ list_dirs_selected = ["word", "excel", "powerpoint", "pdf", "zdjecia", "skompresowane", name_rest_dir]
 list_dirs_types = ["word", "excel", "powerpoint", "pdf", "zdjecia", "skompresowane"] """
+settings = {}
+
 
 ext_dict = json.load(open("ext.json"))
+
+def open_settings():
+    with open("settings") as f:
+        data = f.read()
+    settings = json.loads(data)
+
+def save_settings():
+    data = json.dumps(settings, indent=2)
+    with open("settings.json", "w") as f:
+        f.write(data)
 
 def name_changer(path):
     dir_name, file_full_name = os.path.split(path)
@@ -74,7 +86,7 @@ path = "/mnt/c/users/wojte/Desktop/test"
 print(path)
 os.chdir(path)
 
-for i in os.listdir():
+''' for i in os.listdir():
     if os.path.isfile(i):
         extension = os.path.splitext(i)[1]
         """ if extension not in ext_dict.keys():
@@ -107,3 +119,4 @@ for i in os.listdir():
             shutil.copytree(i, os.path.join(path_to_folder_dir, os.path.basename(i)))
         shutil.rmtree(i, ignore_errors=True)
 
+ '''
