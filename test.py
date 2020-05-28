@@ -1,19 +1,40 @@
-import os
+import json
 name_rest_dir = "pozostale"
 path = "c:\\Users\\wojte\\Desktop\\test2"
-os.chdir(path)
+# os.chdir(path)
 
-path_rest = os.path.join(path, name_rest_dir)
 
-for i in os.listdir():
-    if os.path.isdir(i):
-        for j in os.walk(i):
-            path_current_rest = os.path.join(path_rest, j[0])
-            path_current = os.path.join(path, j[0])
-            if not os.path.exists(path_current_rest):
-                os.mkdir(path_current_rest)
-            else:
-                os.mkdir(os.path.join(path_rest, "new"))
-                last_dir = os.path.basename(path_current_rest)
-                last_dir = last_dir + "_(" + "1" + ")"
-                
+def open_settings():
+    with open("test.json") as f:
+        data = f.read()
+    return json.loads(data)
+
+def ext_checker(name):
+    if name[0] != ".":
+        return False
+    for i in name[1:]:
+        if ord(i) not in range(97, 123):
+            return False
+    return True
+
+def save_settings(settings):
+    data = json.dumps(settings, indent=2)
+    with open("test.json", "w") as f:
+        f.write(data)
+
+def add_ext():
+    ext = input("podaj poprawną nazwę rozszerzenia np .pdf:\n")
+    while(not ext_checker(ext)):
+        ext = input("podaj poprawną nazwę rozszerzenia np .pdf:\n")
+
+    
+
+''' settings = open_settings()
+del settings["ext"][".pdf"]
+settings["ext"][".cpp"] = "c++"
+save_settings(settings) '''
+
+''' mydict = {'george': 16, 'amber': 19}
+print(list(mydict.keys())[list(mydict.values()).index(19)]) '''
+
+add_ext()

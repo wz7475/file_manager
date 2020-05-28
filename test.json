@@ -1,0 +1,18 @@
+{
+  "ext": {
+    ".xlsx": "excel",
+    ".pptx": "power_point",
+    ".png": "zdjecia",
+    ".jpg": "zdjecia",
+    ".gif": "zdjecia",
+    ".zip": "skompresowane",
+    ".rar": "skompresowane",
+    ".cpp": "c++"
+  },
+  "list_for_change": [
+    ".jpg",
+    ".png"
+  ],
+  "name_rest_dir": "pozostale",
+  "name_folder_dir": "foldery"
+}

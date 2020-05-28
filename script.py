@@ -13,7 +13,7 @@ settings = {}
 ext_dict = json.load(open("ext.json"))
 
 def open_settings():
-    with open("settings") as f:
+    with open("settings.json") as f:
         data = f.read()
     settings = json.loads(data)
 
