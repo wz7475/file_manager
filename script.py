@@ -90,7 +90,11 @@ for i in os.listdir():
                 pass
             else:
                 os.mkdir(name_rest_dir)
-            os.rename(i, os.path.join(os.path.join(path, name_rest_dir), i))
+            if exists_checker(os.path.join(name_rest_dir, i)):
+                new_name = name_for_duplicates(i)
+                os.rename(i, os.path.join(name_rest_dir, new_name))
+            else:
+                os.rename(i, os.path.join(name_rest_dir, i))
             continue
         dir_name = ext_dict[extension]
         if not os.path.exists(os.path.join(path, dir_name)):
