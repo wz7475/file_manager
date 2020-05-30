@@ -112,9 +112,9 @@ for i in os.listdir():
             else:
                 os.rename(i, os.path.join(path_to_dir, i))
     if os.path.isdir(i) and os.path.basename(i) != name_folder_dir and os.path.basename(i) != name_rest_dir and os.path.basename(i) not in ext_dict.values():
-        """ if not os.path.exists(os.path.join(path, name_folder_dir)):
-            os.mkdir(name_folder_dir)
-            print("create foldery") """
+        if len(os.listdir(i)) == 0:
+            os.rmdir(i)
+            continue
         path_to_folder_dir = os.path.join(path, name_folder_dir)
         if exists_checker(os.path.join(path_to_folder_dir, i)):
             new_name = name_for_duplicates(i)
