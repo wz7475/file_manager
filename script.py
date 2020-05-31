@@ -2,25 +2,54 @@ import os
 import shutil
 from datetime import datetime
 import json
-name_rest_dir = "pozostale"
-name_folder_dir = "foldery"
-list_for_change = [".jpg", ".png"]
-""" list_dirs_selected = ["word", "excel", "powerpoint", "pdf", "zdjecia", "skompresowane", name_rest_dir]
-list_dirs_types = ["word", "excel", "powerpoint", "pdf", "zdjecia", "skompresowane"] """
+name_rest_dir = ""
+name_folder_dir = ""
+list_for_change = []
 settings = {}
+path_to_script = ""
+path = ""
+ext_dict = {}
+
+def get_paths():
+    global path_to_script
+    path_to_script = os.getcwd()
+    global path
+    print("Przeciągnij folder lub wpisz ścieżkę:")
+    #path = input()
+    path = "/mnt/c/users/wojte/Desktop/test"
 
 
-ext_dict = json.load(open("ext.json"))
+def load_settings():
+    global name_rest_dir 
+    name_rest_dir = settings["name_rest_dir"]
+    global name_folder_dir 
+    name_folder_dir = settings["name_folder_dir"]
+    global list_for_change
+    list_for_change = settings["list_for_change"]
+    global ext_dict
+    ext_dict = settings["ext_dict"]
 
 def open_settings():
+    os.chdir(path_to_script)
     with open("settings.json") as f:
         data = f.read()
+    os.chdir(path)
+    global settings
     settings = json.loads(data)
 
 def save_settings():
     data = json.dumps(settings, indent=2)
+    os.chdir(path_to_script)
     with open("settings.json", "w") as f:
         f.write(data)
+    os.chdir(path)
+
+def setup():
+    get_paths()
+    os.chdir(path_to_script)
+    open_settings()
+    load_settings()
+    os.chdir(path)
 
 def name_changer(path):
     dir_name, file_full_name = os.path.split(path)
@@ -81,16 +110,69 @@ def name_checker(name):
             return False
     return True
 
+def main():
+    for i in os.listdir():
+        if os.path.isfile(i):
+            extension = os.path.splitext(i)[1]
+            if extension not in ext_dict.keys():
+                if(exists_checker(os.path.join(path, name_rest_dir)) and os.path.isfile(os.path.join(path, name_rest_dir))):
+                    os.remove(name_rest_dir)
+                    os.mkdir(name_rest_dir)
+                elif os.path.isdir(os.path.join(path, name_rest_dir)):
+                    pass
+                else:
+                    os.mkdir(name_rest_dir)
+                if exists_checker(os.path.join(name_rest_dir, i)):
+                    new_name = name_for_duplicates(i)
+                    os.rename(i, os.path.join(name_rest_dir, new_name))
+                else:
+                    os.rename(i, os.path.join(name_rest_dir, i))
+                continue
+            dir_name = ext_dict[extension]
+            if not os.path.exists(os.path.join(path, dir_name)):
+                os.mkdir(dir_name)
+            path_to_dir = os.path.join(path, dir_name)
+            if extension in list_for_change:
+                new_name = name_changer(i)
+                if exists_checker(os.path.join(path_to_dir, new_name)):
+                    new_name = name_for_duplicates(new_name)
+                os.rename(i, os.path.join(path_to_dir, new_name))
+            else:
+                if exists_checker(os.path.join(path_to_dir, i)):
+                    new_name = name_for_duplicates(i)
+                    os.rename(i, os.path.join(path_to_dir, new_name))
+                else:
+                    os.rename(i, os.path.join(path_to_dir, i))
+        if os.path.isdir(i) and os.path.basename(i) != name_folder_dir and os.path.basename(i) != name_rest_dir and os.path.basename(i) not in ext_dict.values():
+            if len(os.listdir(i)) == 0:
+                os.rmdir(i)
+                continue
+            path_to_folder_dir = os.path.join(path, name_folder_dir)
+            if exists_checker(os.path.join(path_to_folder_dir, i)):
+                new_name = name_for_duplicates(i)
+                shutil.copytree(i, os.path.join(path_to_folder_dir, new_name))
+            else:
+                shutil.copytree(i, os.path.join(
+                    path_to_folder_dir, os.path.basename(i)))
+            shutil.rmtree(i, ignore_errors=True)
 
-print("Przeciągnij folder lub wpisz ścieżkę:\n")
+if __name__ == "__main__":
+    setup()
+    main()
+
+""" print("Przeciągnij folder lub wpisz ścieżkę:\n")
 #path = input()
 
 #path = "c:\\Users\\wojte\\Desktop\\test"
 path = "/mnt/c/users/wojte/Desktop/test"
 print(path)
+path_to_script = os.getcwd()
 os.chdir(path)
 
-''' for i in os.listdir():
+settings = open_settings()
+load_settings()
+
+for i in os.listdir():
     if os.path.isfile(i):
         extension = os.path.splitext(i)[1]
         if extension not in ext_dict.keys():
@@ -134,5 +216,4 @@ os.chdir(path)
             shutil.copytree(i, os.path.join(
                 path_to_folder_dir, os.path.basename(i)))
         shutil.rmtree(i, ignore_errors=True)
-
- '''
+ """

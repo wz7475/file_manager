@@ -1,0 +1,3 @@
+add gitignore (pycache)
+work on dev, fix acessing settings - global before variable name - check stack
+remove pycache from index
