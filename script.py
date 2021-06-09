@@ -83,14 +83,14 @@ def name_checker(name):
 
 
 print("Przeciągnij folder lub wpisz ścieżkę:\n")
-#path = input()
+path = input()
 
 #path = "c:\\Users\\wojte\\Desktop\\test"
-path = "/mnt/c/users/wojte/Desktop/test"
+#path = "/mnt/c/users/wojte/Desktop/test"
 print(path)
 os.chdir(path)
 
-''' for i in os.listdir():
+for i in os.listdir():
     if os.path.isfile(i):
         extension = os.path.splitext(i)[1]
         if extension not in ext_dict.keys():
@@ -135,4 +135,4 @@ os.chdir(path)
                 path_to_folder_dir, os.path.basename(i)))
         shutil.rmtree(i, ignore_errors=True)
 
- '''
+
